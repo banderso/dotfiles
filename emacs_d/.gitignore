@@ -1,0 +1,8 @@
+session.*
+*.elc
+auto-save-list
+auto-save-list/*
+.emacs.desktop
+.emacs.desktop.lock
+elpa
+elpa/*
