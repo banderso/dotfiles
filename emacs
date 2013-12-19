@@ -13,10 +13,8 @@
     "")
   "Root of emacs configuration files")
 
-(when
-    (load
-     (expand-file-name "~/.emacs.d/elpa/package.el"))
-  (package-initialize))
+(require 'package)
+(package-initialize)
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 
 (labels
@@ -29,12 +27,11 @@
 				  (directory-files full-path nil ".*\.el$"))))))))
 
   (add-path "plugins")    ;; modes
-  (add-path "plugins/rdebug")
-  (add-path "themes" t)
-  ;(add-path "plugins/clojure-mode")
-  ;(add-path "plugins/swank-clojure")
-  ;(add-path "plugins/slime")
   (add-path "config" t))  ;; personal configurations
+
+(require 'color-theme)
+(setq color-theme-is-global t)
+(color-theme-monokai)
 
 ;;; +===========================================================+
 ;;; | Misc mode Options                                         |
@@ -60,6 +57,7 @@
 (column-number-mode 1)
 (ido-mode t)
 (setq default-tab-width 4)
+(setq-default indent-tabs-mode nil)
 (setq ring-bell-function 'ignore)
 
 ;;; +===========================================================+
@@ -102,3 +100,4 @@
 ;;  '(js2-indent-on-enter-key t)
 ;;  '(js2-strict-inconsistent-return-warning nil)
 ;;  '(speedbar-frame-parameters (quote ((minibuffer) (width . 20) (border-width . 0) (menu-bar-lines . 0) (tool-bar-lines . 0) (unsplittable . t) (set-background-color "black")))))
+

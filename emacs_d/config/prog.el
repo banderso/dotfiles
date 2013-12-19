@@ -3,7 +3,6 @@
 ;;; +===========================================================+
 
 (require 'google-c-style)
-;(require 'rdebug)
 
 ;;;
 ;;; YASnippet
@@ -43,7 +42,7 @@
 	    ;; (setq truncate-lines t)
 	    ;; (auto-fill-mode)
 	    ;; (setq c-basic-offset 4)
-	    (yas/minor-mode)
+	    ;; (yas/minor-mode)
 	    ;; (linum-mode)
 	    (define-key c-mode-map [(control c) (c)] 'compile)))
 (add-hook 'c-mode-common-hook 'google-set-c-style)
@@ -61,13 +60,17 @@
 
 (add-hook 'lisp-mode-hook (lambda () (paredit-mode +1)))
 
+(add-hook 'java-mode-hook
+		  (lambda ()
+			(setq c-basic-offset 4
+				  tab-width 4)))
+
 ;;;
 ;;; Indentation Style
 ;;;
 
-(setq c-default-style '((java-mode . "java")
-			(awk-mode . "awk")
-			(other . "ellemtel")))
+;;(setq c-default-style '((awk-mode . "awk")
+;;						(other . "ellemtel")))
 
 ;;;
 ;;; Flymake Options
@@ -83,7 +86,7 @@
 ;;     (list "epylint" (list local-file))))
 
 ; JavaScript
-(require 'flymake-js)
+;(require 'flymake-js)
 
 ; General
 ;; (defun my-flymake-next-error ()
@@ -160,7 +163,7 @@
 ;;;
 ;;; Go
 ;;;
-(require 'go-mode-load)
+;(require 'go-mode-load)
 
 ;;;
 ;;; Io

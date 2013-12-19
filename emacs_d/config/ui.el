@@ -35,7 +35,8 @@
 (setq truncate-partial-width-windows t)
 (display-time)
 
-(require 'emacsd-tile)
+(when (boundp 'emacsd-tile)
+  (require 'emacsd-tile))
 
 ; Highlight current line
 (global-hl-line-mode 1)
@@ -76,7 +77,3 @@
 ;;  '(vhdl-speedbar-package-face ((t (:foreground "black" :background "dark"))))
 ;;  '(vhdl-speedbar-package-selected-face ((t (:underline t :foreground "black" :background "dark"))))
 ;;  '(widget-field ((t (:background "DarkBlue" :background "light")))))
-
-(eval-after-load "color-theme"
-  (progn (color-theme-zenburn)
-	 (color-theme-monokai)))

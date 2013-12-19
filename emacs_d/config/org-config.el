@@ -1,3 +1,5 @@
+(when (not (boundp 'org-remember-insinuate))
+  (require 'org-remember))
 (org-remember-insinuate)
 (setq org-directory "~/org/")
 (setq org-default-notes-file "~/.notes")
