@@ -1,3 +1,4 @@
+;;; -*- mode: emacs-lisp; -*-
 
 (require 'cl)
 ;;; +===========================================================+
@@ -15,7 +16,12 @@
 
 (require 'package)
 (package-initialize)
-(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+(add-to-list 'package-archives 
+	     '("marmalade" . "http://marmalade-repo.org/packages/"))
+(add-to-list 'package-archives
+	     '("melpa" . "http://melpa.milkbox.net/packages/"))
+(add-to-list 'package-archives
+	     '("gnu" . "http://elpa.gnu.org/packages/"))
 
 (labels
     ((add-path (path &optional auto-load)
