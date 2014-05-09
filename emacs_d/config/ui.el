@@ -6,7 +6,7 @@
 (if (>= emacs-major-version 23)
 	(if (string= "darwin" system-type)
 		(modify-all-frames-parameters
-		 '((font . "Andale Mono-12")))
+		 '((font . "Inconsolata-g-10")))
 	  (modify-all-frames-parameters
 	   '((font . "")))
 ))
