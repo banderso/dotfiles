@@ -5,10 +5,8 @@
 ; Set the font to something sane
 (if (>= emacs-major-version 23)
 	(if (string= "darwin" system-type)
-		(modify-all-frames-parameters
-		 '((font . "Menlo-12")))
-	  (modify-all-frames-parameters
-	   '((font . "Monospace-12")))
+		(modify-all-frames-parameters '((font . "Menlo-12")))
+	  (modify-all-frames-parameters '((font . "Monospace-12")))
 ))
 
 

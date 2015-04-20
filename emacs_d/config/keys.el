@@ -17,6 +17,7 @@
 ; Org mode
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
+(define-key global-map "\C-cr" 'org-capture)
 
 ;(define-key global-map [?\C- ] 'set-mark-command)
 
