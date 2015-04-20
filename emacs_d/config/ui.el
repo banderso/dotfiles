@@ -6,9 +6,9 @@
 (if (>= emacs-major-version 23)
 	(if (string= "darwin" system-type)
 		(modify-all-frames-parameters
-		 '((font . "Andale Mono-12")))
+		 '((font . "Menlo-12")))
 	  (modify-all-frames-parameters
-	   '((font . "")))
+	   '((font . "Monospace-12")))
 ))
 
 
@@ -22,7 +22,7 @@
 (set-selection-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
 
-(setq mac-allow-anti-aliasing nil)
+(setq mac-allow-anti-aliasing t)
 
 ; GNU splash screen
 (setq inhibit-startup-message t)
@@ -46,34 +46,43 @@
 ;;(set-background-color "#1A1A1A")
 ;;(set-foreground-color "#F5F5F5")
 
-;; (custom-set-faces
-;;  ;'(font-lock-builtin-face ((((class color) (background dark)) (:foreground "Turquoise"))))
-;;  '(font-lock-comment-face ((t (:foreground "#95917E"))))
-;;  '(font-lock-constant-face ((t (:bold t :foreground "#66D9EF" :background "dark"))))
-;;  ;'(font-lock-doc-string-face ((t (:foreground "green2"))))
-;;  '(font-lock-function-name-face ((t (:foreground "#A6E22E"))))
-;;  '(font-lock-keyword-face ((t (:bold t :foreground "#F92672"))))
-;;  ;'(font-lock-preprocessor-face ((t (:italic nil :foreground "CornFlowerBlue"))))
-;;  ;'(font-lock-reference-face ((t (:foreground "DodgerBlue"))))
-;;  '(font-lock-string-face ((t (:foreground "#E6DB74"))))
-;;  '(font-lock-type-face ((t (:foreground "#A6E22E"))))
-;;  '(font-lock-variable-name-face ((t (:foreground "#98FBFF"))))
-;;  ;'(font-lock-warning-face ((((class color) (background dark)) (:foreground "yellow" :background "red"))))
-;;  '(highlight ((t (:background "gray20"))))
-;;  ;'(list-mode-item-selected ((t (:background "gold"))))
-;;  ;'(makefile-space-face ((t (:background "wheat"))))
-;;  '(mode-line ((t (:background "#BFBFBF" :foreground "#000000" :box (:line-width -1 :color "#666666")))))
-;;  ;'(paren-match ((t (:background "darkseagreen4"))))
-;;  '(region ((t (:foreground "#272822" :background "#66D9EF"))))
-;;  ;'(show-paren-match ((t (:foreground "black" :background "wheat"))))
-;;  ;'(show-paren-mismatch ((((class color)) (:foreground "white" :background "red"))))
-;;  '(speedbar-button-face ((t (:foreground "green4" :background "dark"))))
-;;  '(speedbar-directory-face ((t (:foreground "khaki" :background "dark"))))
-;;  '(speedbar-file-face ((t (:foreground "cyan" :background "dark"))))
-;;  '(speedbar-tag-face ((t (:foreground "Springgreen" :background "dark"))))
-;;  '(vhdl-speedbar-architecture-selected-face ((t (:underline t :foreground "Blue" :background "dark"))))
-;;  '(vhdl-speedbar-entity-face ((t (:foreground "darkGreen" :background "dark"))))
-;;  '(vhdl-speedbar-entity-selected-face ((t (:underline t :foreground "darkGreen" :background "dark"))))
-;;  '(vhdl-speedbar-package-face ((t (:foreground "black" :background "dark"))))
-;;  '(vhdl-speedbar-package-selected-face ((t (:underline t :foreground "black" :background "dark"))))
-;;  '(widget-field ((t (:background "DarkBlue" :background "light")))))
+(defun color-theme-semantic-monokai ()
+  (interactive)
+  (color-theme-install
+   '(color-theme-semantic-monokai
+     ;; Frame Parameters
+     ((background-color . "#272822")
+      (foreground-color . "#F8F8F2")
+      (cursor-color . "#F8F8F0"))
+     ;; Main
+     ;; (font-lock-builtin-face ((t (:foreground "#A6E22A"))))
+     (font-lock-builtin-face ((t (:weight bold))))
+     (font-lock-comment-face ((t (:foreground "#75715E" :slant italic))))
+     ;;(font-lock-comment-delimiter-face ((t (:slant italic))))
+     ;;(font-lock-constant-face ((t (:foreground "#AE81FF"))))
+     (font-lock-constant-face ((t (:foreground nil))))
+     (font-lock-doc-face ((t (:slant italic))))
+     (font-lock-doc-string-face ((t (:foreground "#E6DB74"))))
+     (font-lock-function-name-face ((t (:foreground "#A6E22E"))))
+     ;; (font-lock-keyword-face ((t (:foreground "#F92672"))))
+     (font-lock-keyword-face ((t (:weight bold))))
+     (font-lock-preprocessor-face ((t (:weight bold))))
+     ;;(font-lock-string-face ((t (:foreground "#E6DB74"))))
+     (font-lock-string-face ((t (:foreground "#F92672"))))
+     (font-lock-type-face ((t (:foreground "#89BDFF"))))
+     ;; (font-lock-variable-name-face ((t (:foreground "#F92672"))))
+     (font-lock-warning-face ((t (:bold t :foreground "#FD5FF1"))))
+     ;; Main - #2
+     (hl-line ((t (:background "#141411"))))
+     (minibuffer-prompt ((t (:foreground "#75715E"))))
+     (modeline ((t (:background "#595959" :foreground "#E6E6E6"))))
+     (region ((t (:background "#383830"))))
+     (show-paren-match-face ((t (:background "#383830"))))
+     ;; CUA
+     (cua-rectangle ((t (:background "#141411"))))
+     ;; IDO
+     (ido-first-match ((t (:foreground "#AE81FF"))))
+     (ido-only-match ((t (:foreground "#A6E22A"))))
+     (ido-subdir ((t (:foreground "#89BDFF"))))
+     ;; Misc
+     (yas/field-highlight-face ((t (:background "#383830")))))))

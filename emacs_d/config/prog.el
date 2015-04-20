@@ -3,14 +3,14 @@
 ;;; +===========================================================+
 
 (require 'google-c-style)
+(add-hook 'after-init-hook 'global-color-identifiers-mode)
 
 ;;;
 ;;; YASnippet
 ;;;
 
 ;(require 'yasnippet)
-;(yas/initialize)
-;(yas/load-directory "~/.emacs.d/snippets")
+;(yas-global-mode 1)
 
 ;;;
 ;;; Autoload
@@ -19,18 +19,22 @@
   "Minor mode for pseudo-structurally editing Lisp code." t)
 
 (autoload 'markdown-mode "markdown-mode"
-   "Major mode for editing Markdown files" t)
+  "Major mode for editing Markdown files" t)
 
 ;;; 
 ;;; Markdown
 ;;
 (setq auto-mode-alist
-   (cons '("\\.md" . markdown-mode) auto-mode-alist))
+      (cons '("\\.md" . markdown-mode) auto-mode-alist))
 
 ;;;
 ;;; Hooks
 ;;;
 
+(add-hook 'html-mode-hook
+	  (lambda()
+	    (setq sgml-basic-offset 4)
+	    (setq indent-tabs-mode f)))
 
 (add-hook 'csharp-mode-hook 
 	  '(lambda ()
@@ -38,15 +42,19 @@
 
 (add-hook 'c-mode-common-hook
 	  '(lambda ()
-	    (add-to-list 'c-cleanup-list 'comment-close-slash)
-	    ;; (setq truncate-lines t)
-	    ;; (auto-fill-mode)
-	    ;; (setq c-basic-offset 4)
-	    ;; (yas/minor-mode)
-	    ;; (linum-mode)
-	    (define-key c-mode-map [(control c) (c)] 'compile)))
+	     (add-to-list 'c-cleanup-list 'comment-close-slash)
+	     ;; (setq truncate-lines t)
+	     ;; (auto-fill-mode)
+	     ;; (setq c-basic-offset 4)
+	     ;; (yas/minor-mode)
+	     ;; (linum-mode)
+	     (define-key c-mode-map [(control c) (c)] 'compile)))
 (add-hook 'c-mode-common-hook 'google-set-c-style)
 (add-hook 'c-mode-common-hook 'google-make-newline-indent)
+(add-hook 'c-mode-common-hook
+	  (lambda ()
+	    (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
+	      (ggtags-mode 1))))
 
 (add-hook 'scala-mode-hool
 	  '(lambda ()
@@ -61,9 +69,15 @@
 (add-hook 'lisp-mode-hook (lambda () (paredit-mode +1)))
 
 (add-hook 'java-mode-hook
-		  (lambda ()
-			(setq c-basic-offset 4
-				  tab-width 4)))
+	  (lambda ()
+	    (setq c-basic-offset 4
+		  tab-width 4)))
+
+(setq semantic-default-submodes '(global-semantic-idle-scheduler-mode
+				  global-semanticdb-minor-mode
+				  global-semantic-idle-summary-mode
+				  global-semantic-mru-bookmark-mode))
+(semantic-mode 1)
 
 ;;;
 ;;; Indentation Style
@@ -76,7 +90,7 @@
 ;;; Flymake Options
 ;;;
 
-; Python
+					; Python
 ;; (defun flymake-pylint-init ()
 ;;   (let* ((temp-file (flymake-init-create-temp-buffer-copy
 ;; 		     'flymake-create-temp-inplace))
@@ -85,10 +99,10 @@
 ;; 		      (file-name-directory buffer-file-name))))
 ;;     (list "epylint" (list local-file))))
 
-; JavaScript
-;(require 'flymake-js)
+					; JavaScript
+					;(require 'flymake-js)
 
-; General
+					; General
 ;; (defun my-flymake-next-error ()
 ;;   (interactive)
 ;;   (flymake-goto-next-error)
@@ -96,10 +110,10 @@
 ;;     (when err
 ;;       (message err))))
 
-;(custom-set-faces '(flymake-errline 
-;		    ((((class color))(:background "indian red")))))
-;(custom-set-faces '(flymake-warnline 
-;		    ((((class color))(:background "royal blue")))))
+					;(custom-set-faces '(flymake-errline 
+					;		    ((((class color))(:background "indian red")))))
+					;(custom-set-faces '(flymake-warnline 
+					;		    ((((class color))(:background "royal blue")))))
 
 ;;;
 ;;; C++
@@ -113,19 +127,19 @@
 	  '(lambda ()
 	     (flymake-mode 1)
 	     (setq tab-width 4
-	           py-indent-offset 4
+		   py-indent-offset 4
 		   indent-tabs-mode nil
 		   py-smart-indentation t)))
 
 ;;;
 ;;; JavaScript
 ;;;
-(autoload 'js2-mode "js2" nil t)
+;;;(autoload 'js2-mode "js2" nil t)
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-(add-hook 'js2-mode-hook 
-	  '(lambda ()
-	     ;place the thing here
-		 ))
+;;;(add-hook 'js2-mode-hook 
+;;;	  '(lambda ()
+;;;	     ;place the thing here
+;;;		 ))
 
 ;;;
 ;;; ActionScript
@@ -143,9 +157,11 @@
 ;;;
 ;;; Clojure
 ;;;
-;(require 'clojure-mode)
-;(require 'clojure-auto)
-;(require 'clojure-paredit)
+					;(require 'clojure-mode)
+					;(require 'clojure-auto)
+					;(require 'clojure-paredit)
+(setq cider-popup-stacktraces t)
+(setq cider-repl-popup-stacktraces t)
 
 ;;;
 ;;; Ruby
@@ -163,17 +179,17 @@
 ;;;
 ;;; Go
 ;;;
-;(require 'go-mode-load)
+					;(require 'go-mode-load)
 
 ;;;
 ;;; Io
 ;;;
-;(require 'io-mode)
+					;(require 'io-mode)
 
 ;;;
 ;;; Scala
 ;;;
-;(require 'scala-mode-auto)
+					;(require 'scala-mode-auto)
 
 ;;;
 ;;; Scheme
@@ -184,4 +200,3 @@
 (add-hook 'inferior-scheme-mode-hook (function gambit-inferior-mode))
 (add-hook 'scheme-mode-hook (function gambit-mode))
 (setq scheme-program-name "gsi -:s,d")
-

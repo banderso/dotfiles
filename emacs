@@ -1,3 +1,4 @@
+;;; -*- mode: emacs-lisp; -*-
 
 (require 'cl)
 ;;; +===========================================================+
@@ -16,8 +17,14 @@
 (require 'package)
 (package-initialize)
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+;(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
+(add-to-list 'package-archives '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/"))
 
-(labels
+(require 'color-theme)
+(setq color-theme-is-global t)
+;;(color-theme-monokai)
+
+(cl-labels
     ((add-path (path &optional auto-load)
 	       (let ((full-path (concat emacs-root path)))
 		 (cond ((null auto-load) (add-to-list 'load-path full-path))
@@ -29,9 +36,7 @@
   (add-path "plugins")    ;; modes
   (add-path "config" t))  ;; personal configurations
 
-(require 'color-theme)
-(setq color-theme-is-global t)
-(color-theme-monokai)
+(color-theme-semantic-monokai)
 
 ;;; +===========================================================+
 ;;; | Misc mode Options                                         |
@@ -100,4 +105,6 @@
 ;;  '(js2-indent-on-enter-key t)
 ;;  '(js2-strict-inconsistent-return-warning nil)
 ;;  '(speedbar-frame-parameters (quote ((minibuffer) (width . 20) (border-width . 0) (menu-bar-lines . 0) (tool-bar-lines . 0) (unsplittable . t) (set-background-color "black")))))
+
+(put 'upcase-region 'disabled nil)
 

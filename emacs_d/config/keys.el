@@ -22,3 +22,5 @@
 
 (define-key global-map "\C-ct" 'insert-date-time-stamp)
 (define-key global-map "\C-c\C-t" 'insert-date-time-stamp)
+
+(define-key global-map "\C-cd" 'dash-at-point)
