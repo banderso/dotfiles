@@ -3,7 +3,13 @@
 ;;; +===========================================================+
 
 (require 'google-c-style)
-(add-hook 'after-init-hook 'global-color-identifiers-mode)
+(add-hook 'after-init-hook
+          (lambda ()
+            (global-color-identifiers-mode)
+            (add-to-list 'color-identifiers:modes-alist
+                         '(yy-mode . (""
+                                      "\\_<\\([a-zA-Z_$]\\(?:\\s_\\|\\sw\\)*\\)"
+                                      (nil font-lock-variable-name-face))))))
 
 ;;;
 ;;; YASnippet
@@ -41,22 +47,22 @@
 	     (setq-default compile-command "nant -nologo -q -e -find")))
 
 (add-hook 'c-mode-common-hook
-	  '(lambda ()
-	     (add-to-list 'c-cleanup-list 'comment-close-slash)
-	     ;; (setq truncate-lines t)
-	     ;; (auto-fill-mode)
-	     ;; (setq c-basic-offset 4)
-	     ;; (yas/minor-mode)
-	     ;; (linum-mode)
-	     (define-key c-mode-map [(control c) (c)] 'compile)))
+          '(lambda ()
+             (add-to-list 'c-cleanup-list 'comment-close-slash)
+             ;; (setq truncate-lines t)
+             ;; (auto-fill-mode)
+             ;; (setq c-basic-offset 4)
+             ;; (yas/minor-mode)
+             ;; (linum-mode)
+             (define-key c-mode-map [(control c) (c)] 'compile)))
 (add-hook 'c-mode-common-hook 'google-set-c-style)
 (add-hook 'c-mode-common-hook 'google-make-newline-indent)
 (add-hook 'c-mode-common-hook
 	  (lambda ()
-	    (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
+	    (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'yy-mode)
 	      (ggtags-mode 1))))
 
-(add-hook 'scala-mode-hool
+(add-hook 'scala-mode-hook
 	  '(lambda ()
 	     (yas/minor-mode)))
 
