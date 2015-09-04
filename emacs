@@ -15,11 +15,11 @@
   "Root of emacs configuration files")
 
 (require 'package)
-(package-initialize)
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-;(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
 (add-to-list 'package-archives '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/"))
 (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
+(package-initialize)
 
 (require 'color-theme)
 (setq color-theme-is-global t)
@@ -45,6 +45,7 @@
 
 (setq path "/opt/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/local/git/bin")
 (setenv "PATH" path)
+(setq racer-rust-src-path "/Users/ben.anderson/work/external/rust/src")
 
 ;; (add-hook 'after-init-hook
 ;;           #'(lambda ()

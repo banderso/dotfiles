@@ -2,9 +2,9 @@
 (setq org-default-notes-file "~/.notes")
 
 (setq org-capture-templates 
-      '(("Todo" ?t "* TODO %? %^g\n %i\n " "~/org/journal.org" "Tasks")
-	("Note" ?n "* %? %^g\n %i\n " "~/org/journal.org" "Notes")
-	("Log" ?l "* %T - %? %^g\n %i\n " "~/org/journal.org" "Log")))
+      '(("t" "Todo" entry (file+headline "~/org/journal.org" "Tasks") "* TODO %? %^g\n %i\n ")
+        ("n" "Note" entry (file+headline "~/org/journal.org" "Notes") "* %? %^g\n %i\n ")
+        ("l" "Log"  entry (file+headline "~/org/journal.org" "Log")   "* %T - %? %^g\n %i\n " )))
 
 (setq org-log-done t)
 (setq org-agenda-files '("~/org/journal.org"))

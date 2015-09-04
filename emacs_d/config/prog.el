@@ -6,6 +6,7 @@
 (add-hook 'after-init-hook
           (lambda ()
             (global-color-identifiers-mode)
+            (global-company-mode)
             (add-to-list 'color-identifiers:modes-alist
                          '(yy-mode . (""
                                       "\\_<\\([a-zA-Z_$]\\(?:\\s_\\|\\sw\\)*\\)"
@@ -77,8 +78,26 @@
 (add-hook 'java-mode-hook
 	  (lambda ()
 	    (setq c-basic-offset 4
-		  tab-width 4)))
+              tab-width 4)))
 
+(add-hook 'rust-mode-hook
+          ;; '(lambda ()
+          ;;    (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
+          ;;    (set (make-local-variable 'company-backends) '(company-racer))
+          ;;    (local-set-key (kbd "M-.") #'racer-find-definition)
+          ;;    (local-set-key (kbd "TAB") #'racer-complete-or-indent)
+          ;;    (message "rust-mode-hook done")
+          #'racer-mode)
+(add-hook 'rust-mode-hook #'company-mode)
+(add-hook 'rust-mode-hook
+          '(lambda ()
+             (setq rust-indent-offset 2))
+(add-hook 'racer-mode-hook #'eldoc-mode)
+(add-hook 'company-mode-hook
+          '(lambda ()
+             (local-set-key (kbd "TAB") #'company-indent-or-complete-common)))
+
+(setq company-tooltip-align-annotations t)
 (setq semantic-default-submodes '(global-semantic-idle-scheduler-mode
 				  global-semanticdb-minor-mode
 				  global-semantic-idle-summary-mode
