@@ -91,7 +91,7 @@
 (add-hook 'rust-mode-hook #'company-mode)
 (add-hook 'rust-mode-hook
           '(lambda ()
-             (setq rust-indent-offset 2))
+             (setq rust-indent-offset 2)))
 (add-hook 'racer-mode-hook #'eldoc-mode)
 (add-hook 'company-mode-hook
           '(lambda ()
