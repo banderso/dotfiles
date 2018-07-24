@@ -4,9 +4,7 @@
 
 (require 'google-c-style)
 (add-hook 'after-init-hook
-          (lambda ()
-            (global-color-identifiers-mode)
-            (global-company-mode)
+          '(lambda ()
             (add-to-list 'color-identifiers:modes-alist
                          '(yy-mode . (""
                                       "\\_<\\([a-zA-Z_$]\\(?:\\s_\\|\\sw\\)*\\)"
@@ -17,7 +15,9 @@
 ;;;
 
 ;(require 'yasnippet)
-;(yas-global-mode 1)
+                                        ;(yas-global-mode 1)
+;(yas-reload-all)
+(setq yas-snippet-dirs '("~/.emacs.d/snippets"))
 
 ;;;
 ;;; Autoload
@@ -27,6 +27,7 @@
 
 (autoload 'markdown-mode "markdown-mode"
   "Major mode for editing Markdown files" t)
+(setq markdown-command "mmd")
 
 ;;; 
 ;;; Markdown
@@ -39,9 +40,9 @@
 ;;;
 
 (add-hook 'html-mode-hook
-	  (lambda()
+	  '(lambda()
 	    (setq sgml-basic-offset 4)
-	    (setq indent-tabs-mode f)))
+	    (setq indent-tabs-mode nil)))
 
 (add-hook 'csharp-mode-hook 
 	  '(lambda ()
@@ -59,7 +60,7 @@
 (add-hook 'c-mode-common-hook 'google-set-c-style)
 (add-hook 'c-mode-common-hook 'google-make-newline-indent)
 (add-hook 'c-mode-common-hook
-	  (lambda ()
+	  '(lambda ()
 	    (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'yy-mode)
 	      (ggtags-mode 1))))
 
@@ -73,36 +74,112 @@
 	     (define-key clojure-mode-map "\C-c\C-e" 'lisp-eval-last-sexp)
 	     (define-key clojure-mode-map "\C-c\C-e" 'lisp-eval-last-sexp)))
 
-(add-hook 'lisp-mode-hook (lambda () (paredit-mode +1)))
+(add-hook 'lisp-mode-hook '(lambda () (paredit-mode +1)))
 
 (add-hook 'java-mode-hook
-	  (lambda ()
+	  '(lambda ()
 	    (setq c-basic-offset 4
               tab-width 4)))
 
-(add-hook 'rust-mode-hook
-          ;; '(lambda ()
-          ;;    (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
-          ;;    (set (make-local-variable 'company-backends) '(company-racer))
-          ;;    (local-set-key (kbd "M-.") #'racer-find-definition)
-          ;;    (local-set-key (kbd "TAB") #'racer-complete-or-indent)
-          ;;    (message "rust-mode-hook done")
-          #'racer-mode)
+
+;;;
+;;; Rust
+;;;
+
+(setq rust-format-on-save t)
+(setq rust-indent-offset 2)
+(with-eval-after-load 'lsp-mode
+  (setq lsp-rust-rls-command '("rustup" "run" "stable" "rls"))
+  (require 'lsp-rust))
+
+(add-hook 'rust-mode-hook #'color-identifiers-mode)
+(add-hook 'rust-mode-hook #'lsp-rust-enable)
+(add-hook 'rust-mode-hook #'flycheck-mode)
 (add-hook 'rust-mode-hook #'company-mode)
-(add-hook 'rust-mode-hook
-          '(lambda ()
-             (setq rust-indent-offset 2)))
-(add-hook 'racer-mode-hook #'eldoc-mode)
-(add-hook 'company-mode-hook
+(add-hook 'rust-mode-hook #'cargo-minor-mode)
+
+(add-hook 'company-mode
           '(lambda ()
              (local-set-key (kbd "TAB") #'company-indent-or-complete-common)))
 
-(setq company-tooltip-align-annotations t)
-(setq semantic-default-submodes '(global-semantic-idle-scheduler-mode
-				  global-semanticdb-minor-mode
-				  global-semantic-idle-summary-mode
-				  global-semantic-mru-bookmark-mode))
-(semantic-mode 1)
+;;;
+;;; Language Server Protocol
+;;;
+
+(with-eval-after-load 'lsp-mode
+  (require 'lsp-ui)
+  (require 'company-lsp)
+  (push 'company-lsp company-backends))
+(require 'lsp-mode)
+(add-hook 'lsp-mode-hook 'lsp-ui-mode)
+
+;; (add-hook 'rust-mode-hook #'racer-mode)
+;; (add-hook 'rust-mode-hook #'cargo-minor-mode)
+;; (add-hook 'rust-mode-hook #'flycheck-mode)
+;; (add-hook 'rust-mode-hook
+;;           '(lambda ()
+;;              (setq rust-indent-offset 2)
+;;              (local-set-key (kbd "C-c <tab>") #'rust-format-buffer)))
+
+;; (add-hook 'racer-mode-hook #'eldoc-mode)
+;; (add-hook 'racer-mode-hook #'company-mode)
+;; (add-hook 'company-mode-hook
+;;           '(lambda ()
+;;              (local-set-key (kbd "TAB") #'company-indent-or-complete-common)))
+
+;; (setq company-tooltip-align-annotations t)
+;; (setq semantic-default-submodes '(global-semantic-idle-scheduler-mode
+;; 				  global-semanticdb-minor-mode
+;; 				  global-semantic-idle-summary-mode
+;; 				  global-semantic-mru-bookmark-mode))
+;; (semantic-mode 1)
+
+;; (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
+
+;;;
+;;; OCAML
+;;;
+
+(add-hook 'tuareg-mode-hook
+          (lambda ()
+            ;; Add opam emacs directory to the load-path
+            (setq opam-share
+                  (substring
+                   (shell-command-to-string "opam config var share 2> /dev/null")
+                   0 -1))
+            (add-to-list 'load-path (concat opam-share "/emacs/site-lisp"))
+            ;; Load merlin-mode
+            (require 'merlin)
+            ;; Start merlin on ocaml files
+            (add-hook 'tuareg-mode-hook 'merlin-mode t)
+            (add-hook 'caml-mode-hook 'merlin-mode t)
+            ;; Enable auto-complete
+            (setq merlin-use-auto-complete-mode 'easy)
+            ;; Use opam switch to lookup ocamlmerlin binary
+            (setq merlin-command 'opam)
+            (company-mode)
+            (require 'ocp-indent)
+            (autoload 'utop-minor-mode "utop" "Minor mode for utop" t)
+            (autoload 'utop-setup-ocaml-buffer "utop" "Toplevel for OCaml" t)
+            (autoload 'merlin-mode "merlin" "Merlin mode" t)
+            (utop-minor-mode)
+            (company-quickhelp-mode)
+            ;; Important to note that setq-local is a macro and it needs to be
+            ;; separate calls, not like setq
+            (setq-local merlin-completion-with-doc t)
+            (setq-local indent-tabs-mode nil)
+            (setq-local show-trailing-whitespace t)
+            (setq-local indent-line-function 'ocp-indent-line)
+            (setq-local indent-region-function 'ocp-indent-region)
+            (if (equal system-type 'darwin)
+                (load-file "/Users/ben.anderson/.opam/working/share/emacs/site-lisp/ocp-indent.el")
+              (load-file "/home/banderson/.opam/working/share/emacs/site-lisp/ocp-indent.el"))
+            (merlin-mode)))
+
+(add-hook 'utop-mode-hook
+          (lambda ()
+            (set-process-query-on-exit-flag
+             (get-process "utop") nil)))
 
 ;;;
 ;;; Indentation Style
@@ -110,35 +187,6 @@
 
 ;;(setq c-default-style '((awk-mode . "awk")
 ;;						(other . "ellemtel")))
-
-;;;
-;;; Flymake Options
-;;;
-
-					; Python
-;; (defun flymake-pylint-init ()
-;;   (let* ((temp-file (flymake-init-create-temp-buffer-copy
-;; 		     'flymake-create-temp-inplace))
-;; 	 (local-file (file-relative-name
-;; 		      temp-file
-;; 		      (file-name-directory buffer-file-name))))
-;;     (list "epylint" (list local-file))))
-
-					; JavaScript
-					;(require 'flymake-js)
-
-					; General
-;; (defun my-flymake-next-error ()
-;;   (interactive)
-;;   (flymake-goto-next-error)
-;;   (let ((err (get-char-property (point) 'help-echo)))
-;;     (when err
-;;       (message err))))
-
-					;(custom-set-faces '(flymake-errline 
-					;		    ((((class color))(:background "indian red")))))
-					;(custom-set-faces '(flymake-warnline 
-					;		    ((((class color))(:background "royal blue")))))
 
 ;;;
 ;;; C++
@@ -152,25 +200,26 @@
 	  '(lambda ()
 	     (flymake-mode 1)
 	     (setq tab-width 4
-		   py-indent-offset 4
-		   indent-tabs-mode nil
-		   py-smart-indentation t)))
+               py-indent-offset 4
+               indent-tabs-mode nil
+               py-smart-indentation t)))
 
 ;;;
 ;;; JavaScript
 ;;;
 ;;;(autoload 'js2-mode "js2" nil t)
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-;;;(add-hook 'js2-mode-hook 
-;;;	  '(lambda ()
-;;;	     ;place the thing here
-;;;		 ))
+(add-hook 'js2-mode
+          '(lambda ()
+             ))
+(add-hook 'js2-mode #'yas-minor-mode)
 
 ;;;
-;;; ActionScript
+;;; JSON
 ;;;
-(autoload 'actionscript-mode "actionscript-mode" "" t)
-(add-to-list 'auto-mode-alist '("\\.as$" . actionscript-mode))
+(add-hook 'json-mode
+          '(lambda ()
+             ))
 
 ;;; 
 ;;; C#

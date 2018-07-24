@@ -15,10 +15,24 @@
   "Root of emacs configuration files")
 
 (require 'package)
-(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
-(add-to-list 'package-archives '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/"))
-(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
+(setq package-archives '(("gnu". "http://elpa.gnu.org/packages/")
+                         ("melpa" . "http://melpa.milkbox.net/packages/")
+                         ("melpa-stable" . "http://melpa-stable.milkbox.net/packages/")
+                         ("marmalade" . "http://marmalade-repo.org/packages/")))
+
+(setq package-pinned-packages
+      '((cide           . "melpa-stable")
+        (clojure-mode   . "melpa-stable")
+        (paredit        . "melpa-stable")
+        ;;(magit          . "melpa-stable")
+        (js2-mode       . "melpa-stable")
+        (json-mode      . "melpa-stable")
+        (terraform-mode . "melpa-stable")
+        (toml-mode      . "melpa-stable")
+        ;;(rust-mode      . "melpa-stable")
+        (markdown-mode  . "melpa-stable")
+        ))
+
 (package-initialize)
 
 (require 'color-theme)
@@ -43,9 +57,10 @@
 ;;; | Misc mode Options                                         |
 ;;; +===========================================================+
 
-(setq path "/opt/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/local/git/bin")
+(setq path "/opt/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/Users/ben.anderson/.cargo/bin")
 (setenv "PATH" path)
 (setq racer-rust-src-path "/Users/ben.anderson/work/external/rust/src")
+(desktop-save-mode 1)
 
 ;; (add-hook 'after-init-hook
 ;;           #'(lambda ()
@@ -110,3 +125,20 @@
 
 (put 'upcase-region 'disabled nil)
 
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(js-indent-level 2)
+ '(json-reformat:indent-width 2)
+ '(org-export-backends (quote (ascii html icalendar latex md odt)))
+ '(package-selected-packages
+   (quote
+    (cargo color-identifiers-mode company-lsp yasnippet lsp-mode lsp-rust go-mode cider flycheck-rust caml json-mode toml-mode terraform-mode reykjavik-theme paredit org markdown-mode magit js2-mode fsm fringe-helper flycheck-google-cpplint emacsd-tile dash-at-point color-theme-monokai ag))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(markdown-code-face ((t (:inherit fixed-pitch :background "gray50")))))

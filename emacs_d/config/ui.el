@@ -37,6 +37,7 @@
   (require 'emacsd-tile))
 
 ; Highlight current line
+(set-face-attribute 'highlight nil :background "#141411")
 (global-hl-line-mode 1)
 
 (show-paren-mode t)
