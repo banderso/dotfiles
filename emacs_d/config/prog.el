@@ -86,32 +86,29 @@
 ;;; Rust
 ;;;
 
-(setq rust-format-on-save t)
-(setq rust-indent-offset 2)
-(with-eval-after-load 'lsp-mode
-  (setq lsp-rust-rls-command '("rustup" "run" "stable" "rls"))
-  (require 'lsp-rust))
+;(setq rust-format-on-save t)
 
 (add-hook 'rust-mode-hook #'color-identifiers-mode)
-(add-hook 'rust-mode-hook #'lsp-rust-enable)
-(add-hook 'rust-mode-hook #'flycheck-mode)
-(add-hook 'rust-mode-hook #'company-mode)
+(add-hook 'rust-mode-hook #'lsp)
 (add-hook 'rust-mode-hook #'cargo-minor-mode)
 
-(add-hook 'company-mode
-          '(lambda ()
-             (local-set-key (kbd "TAB") #'company-indent-or-complete-common)))
+;; (add-hook 'company-mode
+;;           '(lambda ()
+;;              (local-set-key (kbd "TAB") #'company-indent-or-complete-common)))
 
 ;;;
 ;;; Language Server Protocol
 ;;;
 
-(with-eval-after-load 'lsp-mode
-  (require 'lsp-ui)
-  (require 'company-lsp)
-  (push 'company-lsp company-backends))
-(require 'lsp-mode)
-(add-hook 'lsp-mode-hook 'lsp-ui-mode)
+;; (with-eval-after-load 'lsp-mode
+;;   (require 'lsp-ui)
+;;   (require 'company-lsp)
+;;   (push 'company-lsp company-backends))
+;(setq lsp-print-io t)
+(setq lsp-prefer-flymake nil)
+(setq lsp-auto-configure t)
+(require 'lsp)
+;(add-hook 'lsp-mode-hook 'lsp-ui-mode)
 
 ;; (add-hook 'rust-mode-hook #'racer-mode)
 ;; (add-hook 'rust-mode-hook #'cargo-minor-mode)

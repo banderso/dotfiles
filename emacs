@@ -59,7 +59,7 @@
 
 (setq path "/opt/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/Users/ben.anderson/.cargo/bin")
 (setenv "PATH" path)
-(setq racer-rust-src-path "/Users/ben.anderson/work/external/rust/src")
+;(setq racer-rust-src-path "/Users/ben.anderson/work/external/rust/src")
 (desktop-save-mode 1)
 
 ;; (add-hook 'after-init-hook
@@ -130,12 +130,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(js-indent-level 2)
- '(json-reformat:indent-width 2)
+ '(js-indent-level 4)
+ '(json-reformat:indent-width 4)
  '(org-export-backends (quote (ascii html icalendar latex md odt)))
  '(package-selected-packages
    (quote
-    (cargo color-identifiers-mode company-lsp yasnippet lsp-mode lsp-rust go-mode cider flycheck-rust caml json-mode toml-mode terraform-mode reykjavik-theme paredit org markdown-mode magit js2-mode fsm fringe-helper flycheck-google-cpplint emacsd-tile dash-at-point color-theme-monokai ag))))
+    (flycheck magit-popup lsp-ui rust-mode cargo color-identifiers-mode company-lsp yasnippet lsp-mode lsp-rust go-mode cider flycheck-rust caml json-mode toml-mode terraform-mode reykjavik-theme paredit org markdown-mode magit js2-mode fsm fringe-helper flycheck-google-cpplint emacsd-tile dash-at-point color-theme-monokai ag))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
